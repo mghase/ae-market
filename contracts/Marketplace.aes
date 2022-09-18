@@ -1,0 +1,188 @@
+
+@compiler >= 6
+
+include "String.aes"
+
+
+
+
+contract interface NFTInterface =
+    datatype metadata_type = URL | IPFS | OBJECT_ID | MAP
+    datatype metadata = MetadataIdentifier(string) | MetadataMap(map(string, string))
+
+    record meta_info = 
+        { name: string
+        , symbol: string
+        , base_url: option(string)
+        , metadata_type : metadata_type }
+
+    // datatype event 
+    //     = Transfer(address, address, int)
+    //     | Approval(address, address, int, string)
+    //     | ApprovalForAll(address, address, string)
+
+    // Returns a hardcoded list of all implemented extensions on the deployed contract.
+    entrypoint aex141_extensions : () => list(string)
+
+    // Returns meta information associated with the contract.
+    entrypoint meta_info : () => meta_info
+
+    // Returns meta data associated with a token. 
+    // The function is a part of the basic interface, because metadata can be set in the constructor, 
+    // as well as by implementing the Mintable extention.
+    entrypoint metadata : (int) => option(metadata)
+
+    // Returns the account balance of another account with address `owner` if the account has a balance. 
+    // If the owner address is unknown to the contract `None` will be returned. Using `option` type as a 
+    // return value allows us to determine if the account has balance of 0, more than 0, or the account 
+    // has never had balance and is still unknown to the contract.
+    entrypoint balance : (address) => option(int)
+
+    // Returns the owner's address for the provided token if the token is minted. 
+    // If the token isn't minted None will be returned.
+    entrypoint owner : (int) => option(address)
+
+    // Transfers token from the from address to the to address. Will invoke NFTReceiver if to is a contract receiver. 
+    // If provided data will be submitted with the invocation of NFTReceiver. Emits the Transfer event.
+    //
+    // Should throw if:
+    // - Call.caller is not the current owner, an authorized operator or the approved address for this token;
+    // - from isn't the current owner;
+    // - token isn't a valid token;
+    // - the invocation of NFTReceiver fails.    
+    stateful entrypoint transfer : (address, address, int, option(string)) => unit
+
+    // Sets the approved address to interact on behalf of an owner for the token. 
+    // If enabled is true the operator is approved, if false the approval is revoked. 
+    // Throws unless caller is the current NFT owner, or an authorized operator of the current owner. 
+    // Emits the Approval event.
+    stateful entrypoint approve : (address, int, bool) => unit
+
+    // Enables or disables approval for an operator to manage all of the caller's assets. 
+    // If enabled is true the operator is approved, if false the approval is revoked. 
+    // Emits the ApprovalForAll event.
+    stateful entrypoint approve_all : (address, bool) => unit
+
+    // Returns the address approved to interact with the token or returns None if no approval has been set. 
+    // Throws if token is an invalid token ID.
+    entrypoint get_approved : (int) => option(address)
+
+    // Returns true if approved is approved to transact for token.
+    entrypoint is_approved : (int, address) => bool
+
+    // Returns true if operator is approved to commit transactions on behalf of owner.
+    // Indicates wether an address is an authorized operator for another address.
+    entrypoint is_approved_for_all : (address, address) => bool
+
+// contract interface NFTReceiver = 
+//     entrypoint on_nft_received : (address, address, int, option(string)) => bool
+
+
+// namespace Utils =
+//     function bool_to_string(v: bool): string =
+//         switch (v)
+//             true => "true"
+//             false => "false"
+
+
+
+
+
+contract NFTMarket =
+    
+    // Declaration and structure of datatype event
+    // and events that will be emitted on changes
+    datatype event = MarketItemCreated(int, address, address)
+
+    record marketItem = {
+        marketItemId : int,
+        nftContractAddress : NFTInterface,
+        tokenId : int,
+        creator: address,
+        seller : address, //person selling the nft
+        owner : address, //owner of the nft
+        price : int,
+        sold : bool,
+        canceled : bool
+     }
+      
+    record state = {
+        nftContractAddress : NFTInterface,
+        totalItem : int, 
+        owner : address,
+        deployer: address,
+        marketItems : map(int, marketItem),//a way to access values of the MarketItem struct above by passing an integer ID
+        listingFee : int,
+        marketItemIds : int,
+        tokensSold : int,
+        tokensCanceled : int
+     }
+    
+    stateful entrypoint init(_nftAddress: NFTInterface) = {
+        nftContractAddress = _nftAddress,
+        totalItem = 0,
+        owner = Call.caller,
+        deployer = Call.caller,
+        marketItems = {},
+        listingFee = 1,
+        marketItemIds = 0,
+        tokensSold = 0,
+        tokensCanceled = 0
+     }
+
+    payable stateful entrypoint createMarketItem (_nftAddress: NFTInterface,_tokenId : int, _price : int) : int =
+        require(_price > 0, "Price must be at least 1 Ae")
+        require(Call.value == state.listingFee, "Price must be equal to listing price")
+        let i : int = getTotalMarketItemIds() + 1
+        let itemCount : int = getTotalItem() + 1
+
+       // let _creator  = _nftAddress.owner(_tokenId)
+
+        let _creator = switch(_nftAddress.owner(_tokenId))
+            None => abort("INVALID_TOKEN_ID")
+            Some(v) => v
+
+        let _marketItem = {
+            marketItemId = itemCount,
+            nftContractAddress = _nftAddress,
+            tokenId  = _tokenId,
+            creator = _creator,
+            seller = Call.caller, //person selling the nft
+            owner = _creator, //owner of the nft
+            price = _price,
+            sold = false,
+            canceled = false
+         }
+
+        put(state{marketItems[itemCount] = _marketItem ,marketItemIds = i, totalItem = itemCount})
+        itemCount
+
+         
+
+
+
+    entrypoint getNFTMetaInfo() =
+         state.nftContractAddress.meta_info()
+       
+     /// @notice function to get listingprice
+    entrypoint getListingFee() : int =
+         state.listingFee
+    
+    stateful entrypoint setListingFee(_fee : int) : int = 
+        if(Call.caller == state.owner)
+         put(state {listingFee = _fee})
+         _fee
+        else
+          state.listingFee
+      
+    entrypoint getTotalItem() : int =
+         state.totalItem
+    
+    entrypoint getTotalMarketItemIds() : int =
+         state.marketItemIds
+    
+    entrypoint getTotalTokensSold() : int =
+         state.tokensSold
+
+    entrypoint getTotalTokensCanceled() : int =
+         state.tokensCanceled 
