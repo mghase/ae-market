@@ -133,13 +133,25 @@ const CreateNFT = () => {
               focus:outline-none focus:ring-0"
               type="text"
               name="title"
-              placeholder="Title"
+              placeholder="Name"
               onChange={(e) => setTitle(e.target.value)}
               value={title}
               required
             />
           </div>
-
+          <div className="flex flex-row justify-between items-center bg-gray-800 rounded-xl mt-5">
+            <input
+              className="block w-full text-sm
+              text-slate-500 bg-transparent border-0
+              focus:outline-none focus:ring-0"
+              type="text"
+              name="title"
+              placeholder="Symbol"
+              onChange={(e) => setTitle(e.target.value)}
+              value={title}
+              required
+            />
+          </div>
           <div className="flex flex-row justify-between items-center bg-gray-800 rounded-xl mt-5">
             <input
               className="block w-full text-sm
@@ -149,7 +161,7 @@ const CreateNFT = () => {
               step={0.01}
               min={0.01}
               name="price"
-              placeholder="Price (Eth)"
+              placeholder="Price (ae)"
               onChange={(e) => setPrice(e.target.value)}
               value={price}
               required
