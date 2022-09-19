@@ -1,16 +1,11 @@
-import { useState, useContext } from "react";
 import { useGlobalState } from '../store'
-import nftLogo from  '../logo.svg'  //'../assets/timeless.png'
-// import { connectWallet } from '../TimelessNFT'
-import { AeMarketContext } from "../context/AeMarketContext";
+import nftLogo from  '../logo.svg'  
 import Button from "./Button";
 import { useStore } from "../store/store";
 import Loader from "./Loading";
 
 const Header = () => {
-  const [connectedAccount1] = useGlobalState('connectedAccount')
-  //const { address, fetchAccount } = useContext(AeMarketContext);
-   const fetchAccount = useStore(state=>state.fetchAccount)
+ const fetchAccount = useStore(state=>state.fetchAccount)
    const connectedAccount = useStore(state=>state.connectedAccount)
    const address = useStore(state=>state.address)
    const loading = useStore(state=>state.btnLoading)

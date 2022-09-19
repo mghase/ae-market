@@ -9,7 +9,7 @@ const shutdown = (varName) => {
 const NODE_URL = 'https://testnet.aeternity.io';
 const COMPILER_URL = 'https://compiler.aeternity.io';
 
-const collectionMetadata = require('../contracts/nfts/collection_metadata.json');
+const collectionMetadata = require('../nfts/collection_metadata.json');
 
 (async function () {
     secretKey = process.env.SECRET_KEY
