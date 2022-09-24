@@ -37,7 +37,7 @@ Check out the quick start guide to learn how to create a keypair and how to fund
 
 - https://docs.aeternity.com/aepp-sdk-js/latest/quick-start/
 
-Alternatively just execute the [create_keypair_and_fund_account.js](./scripts/create_keypair_and_fund_account.js) script as follows:
+Alternatively just execute the [create_keypair_and_fund_account.js](./deploy/create_keypair_and_fund_account.js) script as follows:
 
 `node ./deploy/create_keypair_and_fund_account.js`
 
