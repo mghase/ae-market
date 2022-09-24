@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/mghase/ae-market/tree/main/frontend/static/css/main.00488e14.css",
-    "main.js": "/mghase/ae-market/tree/main/frontend/static/js/main.d2c71541.js",
-    "static/js/787.cda612ba.chunk.js": "/mghase/ae-market/tree/main/frontend/static/js/787.cda612ba.chunk.js",
-    "static/media/logo.svg": "/mghase/ae-market/tree/main/frontend/static/media/logo.065a870823391cab6bb3db13d09b366c.svg",
-    "index.html": "/mghase/ae-market/tree/main/frontend/index.html",
-    "main.00488e14.css.map": "/mghase/ae-market/tree/main/frontend/static/css/main.00488e14.css.map",
-    "main.d2c71541.js.map": "/mghase/ae-market/tree/main/frontend/static/js/main.d2c71541.js.map",
-    "787.cda612ba.chunk.js.map": "/mghase/ae-market/tree/main/frontend/static/js/787.cda612ba.chunk.js.map"
+    "main.css": "/ae-market/frontend/static/css/main.00488e14.css",
+    "main.js": "/ae-market/frontend/static/js/main.3df85b35.js",
+    "static/js/787.cda612ba.chunk.js": "/ae-market/frontend/static/js/787.cda612ba.chunk.js",
+    "static/media/logo.svg": "/ae-market/frontend/static/media/logo.065a870823391cab6bb3db13d09b366c.svg",
+    "index.html": "/ae-market/frontend/index.html",
+    "main.00488e14.css.map": "/ae-market/frontend/static/css/main.00488e14.css.map",
+    "main.3df85b35.js.map": "/ae-market/frontend/static/js/main.3df85b35.js.map",
+    "787.cda612ba.chunk.js.map": "/ae-market/frontend/static/js/787.cda612ba.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.00488e14.css",
-    "static/js/main.d2c71541.js"
+    "static/js/main.3df85b35.js"
   ]
 }
