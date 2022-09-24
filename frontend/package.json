@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "@aeternity/aepp-sdk": "^12.1.3",
+    "@aeternity/aeproject": "^4.1.1",
     "@chakra-ui/react": "^2.3.4",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
@@ -19,6 +20,7 @@
     "@types/node": "^16.11.59",
     "@types/react": "^18.0.20",
     "@types/react-dom": "^18.0.6",
+    "dag-jose": "^2.0.1",
     "framer-motion": "^6.5.1",
     "gh-pages": "^4.0.0",
     "ipfs-http-client": "^58.0.0",
@@ -33,7 +35,7 @@
     "zustand": "^4.1.1"
   },
   "scripts": {
-    "predeploy": "npm run build", 
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
