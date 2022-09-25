@@ -6,13 +6,13 @@ import { useStore } from "../store/store";
 
 const ShowNFT = () => {
   const [showModal] = useGlobalState('showModal')
-  const [nft] = useGlobalState('nft')
+  //const [nft] = useGlobalState('nft')
   const connectedAccount = useStore(state=>state.connectedAccount)
-  
+   const nft = useStore(state=>state.nft);
 
 
   const onChangePrice = () => {
-    setGlobalState('nft', nft)
+   // setGlobalState('nft', nft)
     setGlobalState('showModal', 'scale-0')
     setGlobalState('updateModal', 'scale-100')
   }
@@ -64,15 +64,15 @@ const ShowNFT = () => {
                 <div className="shrink-0 rounded-xl overflow-hidden h-40 w-40">
                   <img
                     className="h-full w-full object-cover cursor-pointer"
-                    // src={nft?.metadataURI}
-                    // alt={nft?.title}
+                    src={nft?.image_url}
+                    alt={nft?.name}
                   />
                 </div>
               </div>
 
               <div className="flex flex-col justify-start rounded-xl mt-5">
-                <h4 className="text-white font-semibold">{'nft?.title'}</h4>
-                <p className="text-gray-400 text-xs my-1">{'nft?.description'}</p>
+                <h4 className="text-white font-semibold">{nft?.name}</h4>
+                <p className="text-gray-400 text-xs my-1">{nft?.description}</p>
 
                 <div className="flex justify-between items-center mt-3 text-white">
                   <div className="flex justify-start items-center">
@@ -84,14 +84,14 @@ const ShowNFT = () => {
                     <div className="flex flex-col justify-center items-start">
                       <small className="text-white font-bold">@owner</small>
                       <small className="text-pink-800 font-semibold">
-                        {/* "{nft?.owner ? truncate(nft.owner, 4, 4, 11) : '...'}" */}
+                        "{nft?.owner ? truncate(nft.owner, 4, 4, 11) : '...'}"
                       </small>
                     </div>
                   </div>
 
                   <div className="flex flex-col">
                     <small className="text-xs">Current Price</small>
-                    <p className="text-sm font-semibold">{'nft?.cost'} ETH</p>
+                    <p className="text-sm font-semibold">{nft?.price} AE</p>
                   </div>
                 </div>
               </div>

@@ -20,6 +20,9 @@ interface MarketState {
   nftContract: any,
   modal: string,
   updateModal: string,
+  nftsMarket:any,
+  nft:any,
+  setSelectedNFT(nft:any):void,
   init() : void,
   fetchAccount():void,
   setModal(modal:string): void,
@@ -37,8 +40,14 @@ export const useStore = create<MarketState>()(
             marketContract:null, 
             modal: 'scale-0',
             updateModal: 'scale-0',
-            nftsMarket:[],
-
+            nftsMarket:null,
+            nft:null,
+            setSelectedNFT:(_nft)=>{
+              set((state)=>({
+               ...state,
+               nft:_nft
+              }));
+            },
             init : async () => {
               try {
                 const node = new Node("https://testnet.aeternity.io"); // ideally host your own node
@@ -64,35 +73,38 @@ export const useStore = create<MarketState>()(
                   marketContract : marketContractInstance.methods,
                   nftContract :nftContractInstance.methods
                  }))
-                const { decodedResult } = await marketContractInstance.methods.getTotalItem();
-               // getAssets(decodedResult, contractInstance);
+                const { decodedResult:res } = await marketContractInstance.methods.getTotalItem();
+               let it:number = parseInt(res);
+               console.log("tt====",parseInt(res))
+                // getAssets(decodedResult, contractInstance);
              //  const { nftdecodedResult } = await nftContractInstance.methods.getTotalItem();
                const nfts = await Promise.all(
-                [...new Array(8)].map(async (_, i) => {
+                [...new Array(it-1)].map(async (_, i) => {
                   const { decodedResult: metadata } = await nftContractInstance.methods.metadata(
                     i + 1
                   );
-                  return metadata;
-                  // return {
-                  //   name: metadata["MetadataMap"][0].get("name"),
-                  //   description: metadata["MetadataMap"][0].get("description"),
-                  //   image_url: metadata["MetadataMap"][0]
-                  //     .get("media_url")
-                  //     .replace("ipfs://", "https://cloudflare-ipfs.com/ipfs/"),
-                  // };
+                  //return metadata["MetadataMap"][0].get("name");
+                  return {
+                    name: metadata["MetadataMap"][0].get("name"),
+                    description: metadata["MetadataMap"][0].get("description"),
+                    image_url: metadata["MetadataMap"][0]
+                      .get("media_url")
+                      .replace("ipfs://", "https://cloudflare-ipfs.com/ipfs/"),
+                  };
                 })
               );
-
+               
               console.log("nfts====",nfts)
-                 for(let i=0;i<decodedResult;i++){
+                 for(let i=0;i<it;i++){
                   console.log("i===",i)
                  }
-               console.log("total===",decodedResult);
+               console.log("total===",res);
               // }catch(e){
               //   console.log("mmee==",e)
               // }
                set((state)=>({
-                ...state
+                ...state,
+                nftsMarket:nfts,
                }))
               } catch (error) {
                 console.log(error);
