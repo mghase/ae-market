@@ -51,13 +51,13 @@ const Artworks = () => {
                 alt={truncate(nft.name, 6)}
                 className="h-60 w-full object-cover shadow-lg shadow-black rounded-lg mb-3"
               />
-              <h4 className="text-white font-semibold">{nft.title}</h4>
+              <h4 className="text-white font-semibold">{nft.name}</h4>
               <p className="text-gray-400 text-xs my-1">
                 {truncate(nft.description)}
               </p>
               <div className="flex justify-between items-center mt-3 text-white">
                 <div className="flex flex-col">
-                  <small className="text-xs">Current Price {nft.metadataURI}</small>
+                  <small className="text-xs">Current Price </small>
                   <p className="text-sm font-semibold">{nft.price} AE</p>
                 </div>
 
@@ -72,7 +72,7 @@ const Artworks = () => {
           ))}
         </div>
 
-        {collection.length > 0 && nfts.length > collection.length ? (
+        {collection?.length > 0 && nfts?.length > collection?.length ? (
           <div className="text-center my-5">
             <button
               className="shadow-xl shadow-black text-white

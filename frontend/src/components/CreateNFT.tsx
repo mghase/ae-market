@@ -16,7 +16,8 @@ const CreateNFT = () => {
   const modal = useStore(state=>state.modal)
   const updateModal = useStore(state=>state.setUpdateModal)
  // const [modalx] = useGlobalState('modal')
-  const [title, setTitle] = useState('')
+  const [name, setName] = useState('')
+  const [symbol, setSymbol] = useState('')
   const [price, setPrice] = useState('')
   const [description, setDescription] = useState('')
   const [fileUrl, setFileUrl] = useState('')
@@ -36,15 +37,15 @@ const CreateNFT = () => {
   const handleSubmit = async (e:HTMLFormElement) => {
     e.preventDefault()
 
-    if (!title || !price || !description) return
-
+    if (!name || !price || !description) return
+    
     setModal('scale-0')
     setGlobalState('loading', { show: true, msg: 'Uploading IPFS data...' })
 
     try {
       const created = await client.add(fileUrl)
       const metadataURI = `https://ipfs.infura.io/ipfs/${created.path}`
-      const nft = { title, price, description, metadataURI }
+      const nft = { name, price, description, metadataURI }
       setLoadingMsg('Intializing transaction...')
 
       // mintNFT(nft).then((res) => {
@@ -70,7 +71,8 @@ const CreateNFT = () => {
   const resetForm = () => {
     setFileUrl('')
     setImgBase64(null)
-    setTitle('')
+    setName('')
+    setSymbol('')
     setPrice('')
     setDescription('')
   }
@@ -132,10 +134,10 @@ const CreateNFT = () => {
               text-slate-500 bg-transparent border-0
               focus:outline-none focus:ring-0"
               type="text"
-              name="title"
+              name="name"
               placeholder="Name"
-              onChange={(e) => setTitle(e.target.value)}
-              value={title}
+              onChange={(e) => setName(e.target.value)}
+              value={name}
               required
             />
           </div>
@@ -145,10 +147,10 @@ const CreateNFT = () => {
               text-slate-500 bg-transparent border-0
               focus:outline-none focus:ring-0"
               type="text"
-              name="title"
+              name="symbol"
               placeholder="Symbol"
-              onChange={(e) => setTitle(e.target.value)}
-              value={title}
+              onChange={(e) => setSymbol(e.target.value)}
+              value={symbol}
               required
             />
           </div>
