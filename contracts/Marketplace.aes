@@ -3,9 +3,6 @@
 
 include "String.aes"
 
-
-
-
 contract interface NFTInterface =
     datatype metadata_type = URL | IPFS | OBJECT_ID | MAP
     datatype metadata = MetadataIdentifier(string) | MetadataMap(map(string, string))
@@ -159,7 +156,29 @@ contract NFTMarket =
 
          
 
+/**
+     * @dev Creates a market sale by transfering msg.sender money to the seller and NFT token from the
+     * marketplace to the msg.sender. It also sends the listingFee to the marketplace owner.
+     */
+    payable stateful entrypoint createMarketSale(_nftContractAddress:NFTInterface, _marketItemId:int) =
+        let market = getMarketItem(_marketItemId)
+        let price:int = market.price
+        let tokenId:int = market.tokenId
+        let tokenSold:int = getTotalTokensSold() +1
+        require(Call.value == price, "Please submit the asking price in order to continue")
 
+        put(state{marketItems[_marketItemId].owner = Call.caller,marketItems[_marketItemId].sold = true, tokensSold = tokenSold})
+       
+        Chain.spend(market.seller,Call.value)
+        Chain.spend(market.owner,state.listingFee)
+        _nftContractAddress.transfer(market.seller,Call.caller,tokenId,None)
+     
+    
+
+    entrypoint getMarketItem(_marketItemId : int): marketItem =
+        switch(Map.lookup(_marketItemId, state.marketItems))
+           None => abort("There was no market item Found")
+           Some(x) => x
 
     entrypoint getNFTMetaInfo() =
          state.nftContractAddress.meta_info()
