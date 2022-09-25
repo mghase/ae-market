@@ -1,8 +1,15 @@
 # ae-market-place
-![alt text](./ae-market-frontend.png?raw=true)
-
 This repository will guide you through all the steps required to create an NFT MARKETPLACE AND NFT collection and mint unique NFTs on the æternity blockchain using the [AEX-141](https://github.com/aeternity/AEXs/blob/master/AEXS/aex-141.md) standard.
 
+## How to Deploy Fontend ae-market place 
+ ````
+ cd /frontend
+ npm install,
+ npm run start
+  ````
+![alt text](./ae-market-frontend.png?raw=true)
+
+#NFT
 ## Extensions
 
 The example demonstrates the usage of following extensions:
@@ -29,7 +36,7 @@ The NFT images of the example collection are stored under [nfts/images](./nfts/i
 - The good thing is that the IPFS hash will always be the same as long as somebody owning the original media has it stored somewhere, uploads and pins at again on IPFS.
 - The bad news is that if the media isn't pinned anymore and nobody saved the original file the NFT media cannot be fetched anymore.
 
-## Deployment & Minting
+## Deployment & Minting nft and market place
 
 With the following step deploying scripts you can easily test deployment on the official testnet. For mainnet almost identical steps can be executed. Of course you need some Æ to cover the transaction fees.
 
@@ -147,9 +154,4 @@ Pass: 9 [object Object]
 
 ```
 
-## How to Deploy Fontend ae-market place 
- ````
- cd /frontend
- npm install,
- npm run start
-  ````
+
