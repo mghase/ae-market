@@ -146,4 +146,9 @@ Pass: 9 [object Object]
 
 ```
 
-## Fontend ae-market place comming soon
+## Fontend ae-market place  Deployment 
+ ````
+ cd /frontend
+ npm install,
+ npm run start
+  ````
