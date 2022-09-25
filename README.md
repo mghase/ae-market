@@ -1,4 +1,5 @@
 # ae-market-place
+![alt text](./ae-market-frontend.png?raw=true)
 
 This repository will guide you through all the steps required to create an NFT MARKETPLACE AND NFT collection and mint unique NFTs on the æternity blockchain using the [AEX-141](https://github.com/aeternity/AEXs/blob/master/AEXS/aex-141.md) standard.
 
