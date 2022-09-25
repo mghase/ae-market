@@ -146,7 +146,7 @@ Pass: 9 [object Object]
 
 ```
 
-## Fontend ae-market place  Deployment 
+## How to Deploy Fontend ae-market place 
  ````
  cd /frontend
  npm install,
