@@ -116,7 +116,7 @@ contract NFTMarket =
 
 /**
      * @dev Creates a market sale by transfering msg.sender money to the seller and NFT token from the
-     * marketplace to the msg.sender. It also sends the listingFee to the marketplace owner.
+     * marketplace to the msg.sender. It also sends the listing Fee to the marketplace owner.
      */
     payable stateful entrypoint createMarketSale(_nftContractAddress:NFTInterface, _marketItemId:int) =
         let market = getMarketItem(_marketItemId)
